@@ -1,0 +1,1 @@
+2023 &copy;  All Right Reserved.  | Ataime Asuquo Ekpa | H/F2021/COM/003 | Foundation polytechnic, Ikot Ekpene| Computer Science Dept.
