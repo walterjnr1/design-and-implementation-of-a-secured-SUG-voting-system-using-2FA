@@ -170,16 +170,24 @@ xmlhttp.send();
 
           <li class=""><a href="Voter-register.php">Voter Registration</a></li>
 		            <li class="active"><a href="candidate-register.php">Candidate Registration</a></li>
-          <li class=""><a href="vote.php">Vote</a></li>
-          <li class=""><a href="choose-result.php">Result</a></li>
+                <li class="">
+                <?php 
+		           if(!empty($_SESSION['VregNo'])) {   
+    								echo "<a href='vote.php'>Vote</a>";
+   												}  
+								   ?></a>
+                   </li>
+                             <li class=""><a href="choose-result.php">Result</a></li>
 
        
           <li class=""><?php 
-		  if(strlen($_SESSION['regNo'])=="") {   
+		  if(empty($_SESSION['VregNo'])) {   
     								echo "<a href='login.php'>Login</a>";
    						 }else{
-echo "<a href='logout.php'>Logout</a>"	;							}  
-								   ?></a></li>
+echo "<a href='logout.php'>Logout</a>"	;	
+						}  
+								   ?></a>
+                   </li>
         </ul>
       </section>
 	  <img src="images/logo.jpeg" alt="e-voting" width="66" height="66" id="img" />    </nav>
@@ -347,7 +355,7 @@ echo "<a href='logout.php'>Logout</a>"	;							}
       </div>
 	   <div class="form-group">
         <label class="col-lg-12 control-label" for="pass1">PIN:
-          <input type="password"  id="pass1" class="form-control" name="txtpin"  value="<?php if (isset($_POST['txtpin']))?><?php echo $_POST['txtpin']; ?>" required="" />
+          <input type="text"  id="pass1" class="form-control" name="txtpin"  value="<?php if (isset($_POST['txtpin']))?><?php echo $_POST['txtpin']; ?>" required="" />
         </label>
       </div>
         <div class="form-group">

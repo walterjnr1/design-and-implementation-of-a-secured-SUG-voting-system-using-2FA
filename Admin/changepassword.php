@@ -6,7 +6,7 @@
 $username=$_SESSION['admin-username'];
 $sql = "select * from admin where username='$username'";
 $result = $conn->query($sql);
-$row1= mysqli_fetch_array($result);
+$row= mysqli_fetch_array($result);
 
   $q = "select * from admin where username = '$username'";
   $q1 = $conn->query($q);
@@ -125,7 +125,7 @@ if(isset($_POST["btnpassword"])){
         <div class="image">
           <img src="images/User.png" alt="User Image" width="220" height="192" class="img-circle elevation-2">        </div>
         <div class="info">
-          <a href="#" class="d-block"><?php echo $row1['fullname'];  ?></a>
+          <a href="#" class="d-block"><?php echo $row['fullname'];  ?></a>
         </div>
       </div>
 

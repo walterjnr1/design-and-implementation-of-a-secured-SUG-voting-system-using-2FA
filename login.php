@@ -10,7 +10,6 @@ include('connect.php');
 if(isset($_POST['btnlogin']))
 {
 
-
 $regNo = $_POST['txtregNo'];
 $voterID = $_POST['txtvoterID'];
 
@@ -22,9 +21,10 @@ if (mysqli_num_rows($result) > 0) {
 ($row = mysqli_fetch_assoc($result));
 $_SESSION["VregNo"] = $row['regNo'];
 $voterName = $row['voterName'];
+$_SESSION["voterName"] = $row['voterName'];
+$_SESSION["voteremail"] = $row['email'];
 $phone = $row['phone'];
 $_SESSION["VvoterID"] = $row['voterID'];
-
 
 //generate oTP
 function otp(){
@@ -35,21 +35,23 @@ return substr($string, 0, 5);
 $otp = otp();
 
 //send OTP to phone number
-$username='rexrolex0@gmail.com';//Note: urlencodemust be added forusernameand 
-$password='admin123';// passwordas encryption code for security purpose.
 
-$sender='SLT-RITMAN';
-$url = "http://portal.nigeriabulksms.com/api/?username=".$username."&password=".$password."&message="."Dear $voterName, Your OTP is: ".$otp."&sender=".$sender."&mobiles=".$phone;
+$username='info.autosyst@gmail.com';//Note: urlencodemust be added forusernameand 
+$password='Integax.sms@2022';// passwordas encryption code for security purpose.
+$sender='E-VOTING';
 
-//$url="https://www.bulksmsnigeria.com/api/v1/sms/create?api_token=6qQBmEf2xX9PX6KbMknkvtEORgRNJJSMhFFUhlFvpR72KNOgakaFbblVc3ti&from=".$sender."&to=".$phone."&body=Dear $voterName, Your OTP is: ".$otp."&dnd=2";
+$message  = 'Hello '.$voterName.', Your OTP is '.$otp.'. Thanks';
+$api_url  = 'https://portal.nigeriabulksms.com/api/';
 
+//Create the message data
+$data = array('username'=>$username, 'password'=>$password, 'sender'=>$sender, 'message'=>$message, 'mobiles'=>$phone);
+//URL encode the message data
+$data = http_build_query($data);
+//Send the message
+$request = $api_url.'?'.$data;
+$result  = file_get_contents($request);
+$result  = json_decode($result);
 
-$ch = curl_init();
-curl_setopt($ch,CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($ch, CURLOPT_HEADER, 0);
-$resp = curl_exec($ch);
 
 //insert otp
 $query = "INSERT into `otp_code` (otp,datetime,regNo, voterID,status) VALUES ('$otp','$current_date','$regNo', '$voterID','0')";
@@ -103,8 +105,14 @@ $msg_error = "Wrong Reg Number or Voter ID";
 
           <li class=""><a href="Voter-register.php">Voter Registration</a></li>
 		            <li class=""><a href="candidate-register.php">Candidate Registration</a></li>
-          <li class=""><a href="vote.php">Vote</a></li>
-          <li class=""><a href="choose-result.php">Result</a></li>
+                <li class="">
+                <?php 
+		           if(!empty($_SESSION['VregNo'])) {   
+    								echo "<a href='vote.php'>Vote</a>";
+   												}  
+								   ?></a>
+                   </li>
+                             <li class=""><a href="choose-result.php">Result</a></li>
 
        
         </ul>

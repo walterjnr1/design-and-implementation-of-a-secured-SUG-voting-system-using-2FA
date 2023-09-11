@@ -113,7 +113,7 @@ else {return false;
         <div class="image">
           <img src="images/User.png" alt="User Image" width="188" height="181" class="img-circle elevation-2">        </div>
         <div class="info">
-          <a href="#" class="d-block"><?php echo $row['username'];  ?></a>
+          <a href="#" class="d-block"><?php echo $row['fullname'];  ?></a>
         </div>
       </div>
 

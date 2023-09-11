@@ -2,20 +2,19 @@
  session_start();
  error_reporting(0);
  include('../connect.php');
+ if(strlen($_SESSION['admin-username'])=="")
+     {
+     header("Location: login.php");
+     }
+     else{
+   }
+   $username = $_SESSION["admin-username"];
+  date_default_timezone_set('Africa/Lagos');
+  $current_date = date('Y-m-d');
 
-$username=$_SESSION['admin-username'];
-$sql = "select * from admin where username='$username'";
-$result = $conn->query($sql);
-$row1= mysqli_fetch_array($result);
-
-//Get website details
-$sql_website = "select * from website_setting";
-$result_website = $conn->query($sql_website);
-$row_website = mysqli_fetch_array($result_website);
-
-
-date_default_timezone_set('Africa/Lagos');
-$current_date = date('Y-m-d H:i:s');
+  $sql = "select * from admin where username ='$username'";
+ $result = $conn->query($sql);
+ $row = mysqli_fetch_array($result);
 
 
 if(isset($_POST["btncreate"]))
@@ -122,7 +121,7 @@ $_SESSION['success'] = "Election Created Successfully";
         <div class="image">
           <img src="images/User.png" alt="User Image" width="64" height="64" class="img-circle elevation-2">        </div>
         <div class="info">
-          <a href="#" class="d-block"><?php echo $row1['fullname'];  ?></a>
+          <a href="#" class="d-block"><?php echo $row['fullname'];  ?></a>
         </div>
       </div>
 

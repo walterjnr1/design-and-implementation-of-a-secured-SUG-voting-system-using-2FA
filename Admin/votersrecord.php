@@ -113,7 +113,7 @@ else {return false;
         <div class="image">
           <img src="images/User.png" alt="User Image" width="188" height="181" class="img-circle elevation-2">        </div>
         <div class="info">
-          <a href="#" class="d-block"><?php echo $row['username'];  ?></a>
+          <a href="#" class="d-block"><?php echo $row['fullname'];  ?></a>
         </div>
       </div>
 
@@ -187,6 +187,8 @@ else {return false;
                     <thead>
                       <tr> <th width="3%">#</th>
                         <th width="13%">Voter Name</th>
+                        <th width="13%">Voter ID</th>
+
 						<th width="7%">Reg No.</th>
                         <th width="7%">Sex</th>
                         <th width="7%">Phone</th>
@@ -208,6 +210,7 @@ else {return false;
                       <tr class="gradeX">
 					  <td height="47"><div align="center"><?php echo $cnt; ?></div></td>
                         <td><div align="center"><?php echo $row['voterName']; ?></div></td>
+                        <td><div align="center"><?php echo $row['voterID']; ?></div></td>
                         	<td><div align="center"><?php echo $row['regNo']; ?></div></td>
                         <td><div align="center"><?php echo $row['sex']; ?></div></td>
                         <td><div align="center"><?php echo $row['phone']; ?></div></td>

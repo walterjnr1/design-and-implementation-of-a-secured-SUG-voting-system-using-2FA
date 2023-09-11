@@ -45,6 +45,11 @@ $row = mysqli_fetch_array($result);
   <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
       <link rel="shortcut icon" href="../images/logo.jpeg" type="image/x-png" />
 
+      <style type="text/css">
+<!--
+.style1 {color: #FFFFFF}
+-->
+      </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -92,10 +97,8 @@ $row = mysqli_fetch_array($result);
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="images/User.png" alt="User Image" width="220" height="192" class="img-circle elevation-2">        </div>
-        <div class="info">
-          <a href="#" class="d-block"><?php echo $row['username'];  ?></a>
-        </div>
+          <img src="images/User.png" alt="User Image" width="220" height="192" class="img-circle elevation-2"> <span class="style1"><?php echo $row['fullname']; ?>        </span></div>
+        <div class="info"></div>
       </div>
 
       <!-- SidebarSearch Form -->

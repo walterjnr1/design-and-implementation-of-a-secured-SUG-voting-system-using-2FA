@@ -14,9 +14,6 @@ $username=$_SESSION['admin-username'];
 $result = $conn->query($sql);
 $row1= mysqli_fetch_array($result);
 
-
-
-
 if(isset($_POST['btnupdate']))
 {
 

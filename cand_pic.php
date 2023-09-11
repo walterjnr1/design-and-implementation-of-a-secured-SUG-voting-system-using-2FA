@@ -83,16 +83,24 @@ window.location = "cand_pic.php";
 
           <li class=""><a href="Voter-register.php">Voter Registration</a></li>
 		            <li class=""><a href="candidate-register.php">Candidate Registration</a></li>
-          <li class=""><a href="vote.php">Vote</a></li>
-          <li class=""><a href="choose-result.php">Result</a></li>
+                <li class="">
+                <?php 
+		           if(!empty($_SESSION['VregNo'])) {   
+    								echo "<a href='vote.php'>Vote</a>";
+   												}  
+								   ?></a>
+                   </li>
+                    <li class=""><a href="choose-result.php">Result</a></li>
 
        
           <li class=""><?php 
-		  if(strlen($_SESSION['regNo'])=="") {   
+		  if(empty($_SESSION['VregNo'])) {   
     								echo "<a href='login.php'>Login</a>";
    						 }else{
-echo "<a href='logout.php'>Logout</a>"	;							}  
-								   ?></a></li>
+echo "<a href='logout.php'>Logout</a>"	;	
+						}  
+								   ?></a>
+                   </li>
         </ul>
       </section>
 	  <img src="images/logo.jpeg" alt="e-voting" width="66" height="66" id="img" />    </nav>

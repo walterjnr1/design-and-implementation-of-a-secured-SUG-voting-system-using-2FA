@@ -42,28 +42,24 @@ return substr($string, 0, 5);
 $VoterID = "V-".VoterID();
 
 //SEnd voterID  Via SMS
-$username='rexrolex0@gmail.com';//Note: urlencodemust be added forusernameand 
-$password='admin123';// passwordas encryption code for security purpose.
+$username='info.autosyst@gmail.com';//Note: urlencodemust be added forusernameand 
+$password='Integax.sms@2022';// passwordas encryption code for security purpose.
+$sender='E-VOTING';
 
-$sender='SLT-RITMAN';
+$message  = 'Hello '.$fullname.', Your Voter ID is '.$VoterID.'. Thanks';
+$api_url  = 'https://portal.nigeriabulksms.com/api/';
 
-$url = "http://portal.nigeriabulksms.com/api/?username=".$username."&password=".$password."&message="."Your registration Was complete. Your Voter ID is :  ".$VoterID."&sender=".$sender."&mobiles=".$phone;
-
-//$url="https://www.bulksmsnigeria.com/api/v1/sms/create?api_token=6qQBmEf2xX9PX6KbMknkvtEORgRNJJSMhFFUhlFvpR72KNOgakaFbblVc3ti&from=".$sender."&to=".$phone."&body=Dear $fullname, Your registration Was complete and Your Voter ID is :  ".$VoterID."&dnd=2";
-
-
-$ch = curl_init();
-curl_setopt($ch,CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($ch, CURLOPT_HEADER, 0);
-$resp = curl_exec($ch);
-
+//Create the message data
+$data = array('username'=>$username, 'password'=>$password, 'sender'=>$sender, 'message'=>$message, 'mobiles'=>$phone);
+//URL encode the message data
+$data = http_build_query($data);
+//Send the message
+$request = $api_url.'?'.$data;
+$result  = file_get_contents($request);
+$result  = json_decode($result);
 
 
-
-
-$query_insert_user = "INSERT INTO voter ( voterID,voterName,regNo, maritalstatus,sex, DOB, phone, address,lga, state, dept, faculty, yearadmission,photo) VALUES ('$VoterID','$fullname','$regNo', '$maritalstatus','$sex', '$DOB', '$phone', '$address','$lga', '$state', '$dept', '$faculty','$yearadmission', '$photo')";
+$query_insert_user = "INSERT INTO voter ( voterID,voterName,regNo, maritalstatus,sex, DOB, phone,email, address,lga, state, dept, faculty, yearadmission,photo) VALUES ('$VoterID','$fullname','$regNo', '$maritalstatus','$sex', '$DOB', '$phone','$email', '$address','$lga', '$state', '$dept', '$faculty','$yearadmission', '$photo')";
  if ($conn->query($query_insert_user) === TRUE) {
 
 $_SESSION['votername']=$fullname;
@@ -152,16 +148,24 @@ xmlhttp.send();
 
           <li class="active"><a href="Voter-register.php">Voter Registration</a></li>
 		            <li class=""><a href="candidate-register.php">Candidate Registration</a></li>
-          <li class=""><a href="vote.php">Vote</a></li>
-          <li class=""><a href="choose-result.php">Result</a></li>
+                <li class="">
+                <?php 
+		           if(!empty($_SESSION['VregNo'])) {   
+    								echo "<a href='vote.php'>Vote</a>";
+   												}  
+								   ?></a>
+                   </li>
+                             <li class=""><a href="choose-result.php">Result</a></li>
 
        
           <li class=""><?php 
-		  if(strlen($_SESSION['VregNo'])=="") {   
+		  if(empty($_SESSION['VregNo'])) {   
     								echo "<a href='login.php'>Login</a>";
    						 }else{
-echo "<a href='logout.php'>Logout</a>"	;							}  
-								   ?></a></li>
+echo "<a href='logout.php'>Logout</a>"	;	
+						}  
+								   ?></a>
+                   </li>
         </ul>
       </section>
 	  <img src="images/logo.jpeg" alt="e-voting" width="66" height="66" id="img" />    </nav>

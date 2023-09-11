@@ -1,4 +1,12 @@
 <?php
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+//Load Composer's autoloader
+require 'vendor/autoload.php';
+
 session_start();
 error_reporting(0);
 include('connect.php');
@@ -22,27 +30,63 @@ $otp = otp();
       
 $regNo = $_SESSION["VregNo"];
 $voterID = $_SESSION["VvoterID"];
+$fullname = $_SESSION["voterName"];
+$email = $_SESSION["voteremail"];
+
+
+//send otp via email
+$mail = new PHPMailer(true);
+ 
+//Server settings
+$mail->isSMTP();                                            //Send using SMTP
+$mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+$mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+$mail->Username   = 'newleastpaysolution@gmail.com';                     //SMTP username
+$mail->Password   = 'hjsktekphlhzsrbm';                               //SMTP password
+$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+$mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+//Recipients
+$mail->setFrom('newleastpaysolution@gmail.com', 'SUG');
+$mail->addAddress('newleastpaysolution@gmail.com', 'SUG');     //Add a recipient
+
+$message = "
+<html>
+<head>
+<title>OTP |Federal Polytechnic , Ukana</title>
+</head>
+<body>
+<img height='90' src=\"http://localhost/Secured_SUG_electoral_system_2FA/images/logo.jpeg\" width='108'>
+                      
+<p> Dear$fullname, Your OTP is: </p>
+</body>
+</html>
+";
+
+//Content
+$mail->isHTML(true);                                  //Set email format to HTML
+$mail->Subject = 'OTP' ;
+$mail->Body    = $message;
+$mail->send();
+
 
 
 //SEnd voterID  Via SMS
-$username='rexrolex0@gmail.com';//Note: urlencodemust be added forusernameand 
-$password='admin123';// passwordas encryption code for security purpose.
+$username='info.autosyst@gmail.com';//Note: urlencodemust be added forusernameand 
+$password='Integax.sms@2022';// passwordas encryption code for security purpose.
+$sender='E-VOTING';
 
-$sender='SLT-RITMAN';
-$url = "http://portal.nigeriabulksms.com/api/?username=".$username."&password=".$password."&message="."Dear $voterName, Your OTP is: ".$otp."&sender=".$sender."&mobiles=".$phone;
+$message  = 'Hello '.$voterName.', Your OTP is '.$otp.'. Thanks';
+$api_url  = 'https://portal.nigeriabulksms.com/api/';
 
-
-//$sender='SUG-RITMAN';
-
-//$url="https://www.bulksmsnigeria.com/api/v1/sms/create?api_token=6qQBmEf2xX9PX6KbMknkvtEORgRNJJSMhFFUhlFvpR72KNOgakaFbblVc3ti&from=".$sender."&to=".$phone."&body=Dear $voterName, Your OTP is: ".$otp."&dnd=2";
-
-
-$ch = curl_init();
-curl_setopt($ch,CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($ch, CURLOPT_HEADER, 0);
-$resp = curl_exec($ch);
+//Create the message data
+$data = array('username'=>$username, 'password'=>$password, 'sender'=>$sender, 'message'=>$message, 'mobiles'=>$phone);
+//URL encode the message data
+$data = http_build_query($data);
+//Send the message
+$request = $api_url.'?'.$data;
+$result  = file_get_contents($request);
+$result  = json_decode($result);
 
 //insert otp
 $query_otp = "INSERT INTO otp_code ( otp,datetime,regNo, voterID,status) VALUES ('$otp','$current_date','$regNo', '$voterID','0')";

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Jan 18, 2022 at 03:00 PM
--- Server version: 10.4.20-MariaDB
--- PHP Version: 7.3.29
+-- Host: 127.0.0.1
+-- Generation Time: Sep 11, 2023 at 03:48 PM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -99,6 +99,14 @@ CREATE TABLE `election` (
   `ID` int(5) NOT NULL,
   `election_name` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `election`
+--
+
+INSERT INTO `election` (`ID`, `election_name`) VALUES
+(7, 'President'),
+(8, 'Director of Social');
 
 -- --------------------------------------------------------
 
@@ -907,6 +915,32 @@ CREATE TABLE `otp_code` (
   `status` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `otp_code`
+--
+
+INSERT INTO `otp_code` (`ID`, `otp`, `datetime`, `regNo`, `voterID`, `status`) VALUES
+(41, 17961, '2023-09-11 13:06:14', 'H/F2021/COM/003', 'V-39884', 0),
+(42, 27983, '2023-09-11 13:07:01', 'H/F2021/COM/003', 'V-39884', 0),
+(43, 80744, '2023-09-11 13:09:02', 'H/F2021/COM/003', 'V-39884', 0),
+(44, 81789, '2023-09-11 13:09:27', 'H/F2021/COM/003', 'V-39884', 0),
+(45, 51005, '2023-09-11 13:10:02', 'H/F2021/COM/003', 'V-39884', 0),
+(46, 15969, '2023-09-11 13:11:13', 'H/F2021/COM/003', 'V-39884', 0),
+(47, 19030, '2023-09-11 13:12:42', 'H/F2021/COM/003', 'V-39884', 0),
+(48, 34199, '2023-09-11 13:14:47', 'H/F2021/COM/003', 'V-39884', 0),
+(49, 23698, '2023-09-11 13:16:20', 'H/F2021/COM/003', 'V-39884', 0),
+(50, 19290, '2023-09-11 13:21:16', 'H/F2021/COM/003', 'V-39884', 0),
+(51, 18048, '2023-09-11 13:23:11', 'H/F2021/COM/003', 'V-39884', 0),
+(52, 15216, '2023-09-11 13:23:25', 'H/F2021/COM/003', 'V-39884', 0),
+(53, 20090, '2023-09-11 13:24:55', 'H/F2021/COM/003', 'V-39884', 0),
+(54, 17507, '2023-09-11 13:38:21', 'H/F2021/COM/003', 'v-78997', 1),
+(55, 46448, '2023-09-11 13:50:25', 'H/F2021/COM/003', 'v-78997', 1),
+(56, 13949, '2023-09-11 13:51:57', 'H/F2021/COM/003', 'V-78997', 0),
+(57, 19288, '2023-09-11 13:52:21', 'H/F2021/COM/003', 'V-78997', 0),
+(58, 46728, '2023-09-11 13:53:37', 'H/F2021/COM/003', 'V-78997', 0),
+(59, 12937, '2023-09-11 13:54:57', 'H/F2021/COM/003', 'v-78997', 1),
+(60, 19069, '2023-09-11 14:43:04', 'H/F2021/COM/003', 'v-23613', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -935,10 +969,10 @@ INSERT INTO `pin` (`ID`, `pin_num`, `status`) VALUES
 (9, '3345231987', '0'),
 (10, '9088782134', '0'),
 (11, '8790214567', '0'),
-(12, '9976321189', '0'),
+(12, '9976321189', '1'),
 (13, '7033215678', '0'),
 (14, '2367895435', '0'),
-(15, '8976034567', '0'),
+(15, '8976034567', '1'),
 (16, '3098765987', '0'),
 (17, '2189065432', '0'),
 (18, '5439876590', '0'),
@@ -1015,6 +1049,7 @@ CREATE TABLE `voter` (
   `sex` varchar(10) NOT NULL,
   `DOB` varchar(15) NOT NULL,
   `phone` varchar(15) NOT NULL,
+  `email` varchar(56) NOT NULL,
   `address` varchar(45) NOT NULL,
   `lga` varchar(30) NOT NULL,
   `state` varchar(30) NOT NULL,
@@ -1106,13 +1141,13 @@ ALTER TABLE `voting`
 -- AUTO_INCREMENT for table `candidate`
 --
 ALTER TABLE `candidate`
-  MODIFY `ID` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `ID` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `election`
 --
 ALTER TABLE `election`
-  MODIFY `ID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `local_govt`
@@ -1124,7 +1159,7 @@ ALTER TABLE `local_govt`
 -- AUTO_INCREMENT for table `otp_code`
 --
 ALTER TABLE `otp_code`
-  MODIFY `ID` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `ID` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `pin`
@@ -1136,7 +1171,7 @@ ALTER TABLE `pin`
 -- AUTO_INCREMENT for table `voter`
 --
 ALTER TABLE `voter`
-  MODIFY `ID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `ID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- Constraints for dumped tables
